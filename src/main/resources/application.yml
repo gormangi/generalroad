@@ -17,4 +17,4 @@ jasypt:
     password: gormangi
 
 server:
-  port: 80
+  port: 14010
