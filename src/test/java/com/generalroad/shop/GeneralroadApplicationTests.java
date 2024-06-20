@@ -24,7 +24,7 @@ class GeneralroadApplicationTests {
         config.setStringOutputType("base64");
         encryptor.setConfig(config);
 
-        String originalString = "jdbc:log4jdbc:oracle:thin:@gormangi_high?TNS_ADMIN=./src/main/resources/Wallet_gormangi";
+        String originalString = "jdbc:log4jdbc:oracle:thin:@gormangi_high?TNS_ADMIN=./classes/Wallet_gormangi";
 
         // 암호화
         String encryptedString = encryptor.encrypt(originalString);

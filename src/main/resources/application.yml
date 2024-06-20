@@ -4,7 +4,7 @@ spring:
     name: generalroad
 
   datasource:
-    url: jdbc:log4jdbc:oracle:thin:@gormangi_high?TNS_ADMIN=./classes/Wallet_gormangi
+    url: ENC(kAxgH0xWUWYHeNoH11Aa7jv6QGjjhm6CyCrDRybdZa0SgTnDa3yeEz5jZHzbTcrCFucWnMvhTceAwquzt3YGajnxiBpe2fvoDAqCxzsBeZxOL2XLYTXj6nqsAImCcqY37KS+nZpRAAscS/tSH0lJIQ==)
     username: ENC(bYOMp4VKYZ1axhd9vbRdR3eBb1OJUZqOPtoHAH6loN5xNhvwA/Wm/o0rvfAUX2w2)
     password: ENC(JhfvY/CkdgPO0lCVSVqso5YIwM83bhhRPwD3YkAZg/ayGX9hy4rM0iUuLvXDSXZx)
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
