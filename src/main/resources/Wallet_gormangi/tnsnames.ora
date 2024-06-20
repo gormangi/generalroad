@@ -1,0 +1,8 @@
+gormangi_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g7939061880c6cc_gormangi_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+gormangi_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g7939061880c6cc_gormangi_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+gormangi_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g7939061880c6cc_gormangi_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+
+
