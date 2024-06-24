@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.generalroad.shop.category.dao.CategoryDAO">
+    <select id="selectCategoryList" resultType="com.generalroad.shop.category.vo.CategoryVO">
+        SELECT
+            CATEGORY_IDX,
+            CATEGORY_NAME,
+            CATEGORY_IMG_SRC,
+            CATEGORY_IN_PRDC_CNT,
+            PARENT_CATEGORY_IDX,
+            CATEGORY_DEPT,
+            CATEGORY_USE_YN,
+            CATEGORY_ORDER
+        FROM
+            CATEGORY
+        ORDER BY CATEGORY_ORDER ASC
+    </select>
+</mapper>

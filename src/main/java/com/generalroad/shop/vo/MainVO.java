@@ -1,14 +1,15 @@
 package com.generalroad.shop.vo;
 
+import com.generalroad.shop.category.vo.CategoryVO;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Setter
 @Getter
 public class MainVO {
 
-    private String title;
-
-    private String content;
+    private List<CategoryVO> categoryList;
 
 }

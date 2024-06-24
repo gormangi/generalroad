@@ -3,14 +3,24 @@ spring:
   application:
     name: generalroad
 
+  #datasource:
+    #url: jdbc:log4jdbc:oracle:thin:@gormangi_high?TNS_ADMIN=./src/main/resources/Wallet_gormangi
+    #username: GENERALROAD
+    #password: "#Didtjdrb87#"
+    #driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+
   datasource:
-    url: ENC(kAxgH0xWUWYHeNoH11Aa7jv6QGjjhm6CyCrDRybdZa0SgTnDa3yeEz5jZHzbTcrCFucWnMvhTceAwquzt3YGajnxiBpe2fvoDAqCxzsBeZxOL2XLYTXj6nqsAImCcqY37KS+nZpRAAscS/tSH0lJIQ==)
-    username: ENC(bYOMp4VKYZ1axhd9vbRdR3eBb1OJUZqOPtoHAH6loN5xNhvwA/Wm/o0rvfAUX2w2)
-    password: ENC(JhfvY/CkdgPO0lCVSVqso5YIwM83bhhRPwD3YkAZg/ayGX9hy4rM0iUuLvXDSXZx)
+    url: ENC(JpPRZirAmOWZXeT85cnR/dF1TmPBwcmssfyI0gKYhB0zBP2O4MpoJ4L+5z0AD59g5Jubbm2Xzhks0C1st/Eeh2hkPx2PvmIeZ2/z+/ruC4aJohVh29qu2y9lZIO/FzVhHxwBCn1yQxOACOT9pXvPIA==)
+    username: ENC(dDt52/LnU56lJ4yXz+SZ6/2vIqmG74xkCNCTfmEZf0nEysdtG/LSEnrqWVpAfwiO)
+    password: ENC(WEeDK/htKQKT4t8NWtDOG4GDjLRaN0HJXgYY8dLSwHEgSyeEqOuqLyG5+hr7U3rk)
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
 mybatis:
   mapper-locations: classpath:mappers/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+    jdbc-type-for-null: NULL
 
 jasypt:
   encryptor:
