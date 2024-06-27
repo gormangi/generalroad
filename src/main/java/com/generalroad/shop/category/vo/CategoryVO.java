@@ -11,8 +11,6 @@ public class CategoryVO {
 
     private String categoryName;
 
-    private String categoryImgSrc;
-
     private int categoryInPrdcCnt;
 
     private String parentCategoryIdx;
@@ -20,6 +18,8 @@ public class CategoryVO {
     private int categoryDept;
 
     private boolean categoryUseYn;
+
+    private int childCategoryCnt;
 
     private int categoryOrder;
 

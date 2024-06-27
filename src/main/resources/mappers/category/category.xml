@@ -6,7 +6,6 @@
         SELECT
             CATEGORY_IDX,
             CATEGORY_NAME,
-            CATEGORY_IMG_SRC,
             CATEGORY_IN_PRDC_CNT,
             PARENT_CATEGORY_IDX,
             CATEGORY_DEPT,
@@ -15,5 +14,29 @@
         FROM
             CATEGORY
         ORDER BY CATEGORY_ORDER ASC
+    </select>
+
+    <select id="selectTopCategoryList" resultType="com.generalroad.shop.category.vo.CategoryVO">
+        SELECT
+            CATEGORY_IDX,
+            CATEGORY_NAME,
+            CATEGORY_DEPT,
+            CATEGORY_IN_PRDC_CNT,
+            CATEGORY_USE_YN,
+            CATEGORY_ORDER,
+            PARENT_CATEGORY_IDX,
+            (SELECT
+                COUNT(*)
+            FROM
+                CATEGORY
+            WHERE
+                CATEGORY_DEPT = 2
+                AND
+                PARENT_CATEGORY_IDX = CG.CATEGORY_IDX) CHILD_CATEGORY_CNT
+        FROM
+            CATEGORY CG
+        WHERE
+            CATEGORY_DEPT = 1
+        ORDER BY CATEGORY_ORDER
     </select>
 </mapper>

@@ -9,4 +9,6 @@ import java.util.List;
 public interface CategoryDAO {
 
     List<CategoryVO> selectCategoryList();
+
+    List<CategoryVO> selectTopCategoryList();
 }
