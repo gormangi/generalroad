@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,7 +17,7 @@ public class MainController {
 
     private final MainService service;
 
-    @PostMapping("main")
+    @GetMapping("main")
     @ResponseBody
     public MainVO main(HttpServletRequest request, HttpServletResponse response){
         return service.getMainData();

@@ -17,4 +17,8 @@ public class CategoryService {
         return dao.selectTopCategoryList();
     }
 
+    public void saveTopCategoryOrder(List<CategoryVO> topCategoryList) {
+        topCategoryList.forEach(dao::updateTopCategoryOrder);
+    }
+
 }

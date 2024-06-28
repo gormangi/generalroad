@@ -4,7 +4,7 @@ spring:
     name: generalroad
 
   #datasource:
-    #url: jdbc:log4jdbc:oracle:thin:@gormangi_high?TNS_ADMIN=./src/main/resources/Wallet_gormangi
+    #url: jdbc:log4jdbc:oracle:thin:@gormangi_high?TNS_ADMIN=./src/main/resources/Wallet_gormangi&allowMultiQueries=true
     #username: GENERALROAD
     #password: "#Didtjdrb87#"
     #driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy

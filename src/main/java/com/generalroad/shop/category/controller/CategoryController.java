@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,5 +24,10 @@ public class CategoryController {
     @ResponseBody
     public List<CategoryVO> getTopCategoryList(HttpServletRequest request, HttpServletResponse response){
         return service.getTopCategoryList();
+    }
+
+    @PostMapping("/saveTopCategoryOrder")
+    public void saveTopCategoryOrder(HttpServletRequest request, HttpServletResponse response, @RequestBody List<CategoryVO> topCategoryList) {
+        service.saveTopCategoryOrder(topCategoryList);
     }
 }

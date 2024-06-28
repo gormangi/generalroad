@@ -8,7 +8,9 @@ import java.util.List;
 @Mapper
 public interface CategoryDAO {
 
-    List<CategoryVO> selectCategoryList();
-
     List<CategoryVO> selectTopCategoryList();
+
+    List<CategoryVO> selectChildCategoryList();
+
+    int updateTopCategoryOrder(CategoryVO topCategoryList);
 }
