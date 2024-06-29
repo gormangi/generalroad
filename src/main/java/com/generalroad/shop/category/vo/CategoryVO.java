@@ -17,7 +17,7 @@ public class CategoryVO {
 
     private int categoryDept;
 
-    private boolean categoryUseYn;
+    private String categoryUseYn;
 
     private int childCategoryCnt;
 

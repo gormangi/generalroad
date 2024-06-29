@@ -6,10 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,14 +17,58 @@ public class CategoryController {
 
     private final CategoryService service;
 
-    @PostMapping("/getTopCategoryList")
+    @PostMapping("/getAdminTopCategoryList")
     @ResponseBody
-    public List<CategoryVO> getTopCategoryList(HttpServletRequest request, HttpServletResponse response){
-        return service.getTopCategoryList();
+    public List<CategoryVO> getAdminTopCategoryList(HttpServletRequest request, HttpServletResponse response){
+        return service.getAdminTopCategoryList();
     }
 
-    @PostMapping("/saveTopCategoryOrder")
-    public void saveTopCategoryOrder(HttpServletRequest request, HttpServletResponse response, @RequestBody List<CategoryVO> topCategoryList) {
-        service.saveTopCategoryOrder(topCategoryList);
+    @PostMapping("/getAdminChildCategoryList")
+    @ResponseBody
+    public List<CategoryVO> getAdminChildCategoryList(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) {
+        return service.getAdminChildCategoryList(categoryVO);
+    }
+
+    @PostMapping("/saveCategoryOrder")
+    public void saveCategoryOrder(HttpServletRequest request, HttpServletResponse response,@RequestBody List<CategoryVO> topCategoryList) {
+        service.saveCategoryOrder(topCategoryList);
+    }
+
+    @PostMapping("/getCategoryInfo")
+    @ResponseBody
+    public CategoryVO getCategoryInfo(HttpServletRequest request, HttpServletResponse response,@RequestBody String categoryIdx) {
+        return service.getCategoryInfo(categoryIdx);
+    }
+
+    @PutMapping ("/updateCategoryInfo")
+    public void updateCategoryInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) {
+        service.updateCategoryInfo(categoryVO);
+    }
+
+    @PostMapping("/getTopCategoryCnt")
+    @ResponseBody
+    public int getTopCategoryCnt(HttpServletRequest request, HttpServletResponse response) {
+        return service.getTopCategoryCnt();
+    }
+
+    @PostMapping("/insertTopCategoryInfo")
+    @ResponseBody
+    public String insertTopCategoryInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) {
+        return service.insertTopCategoryInfo(categoryVO);
+    }
+
+    @PostMapping("/insertChildCategoryInfo")
+    public void insertChildCategoryInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) {
+        service.insertChildCategoryInfo(categoryVO);
+    }
+
+    @PostMapping("/deleteTopCategory")
+    public void deleteTopCategory(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) {
+        service.deleteTopCategory(categoryVO);
+    }
+
+    @PostMapping("/deleteChildCategory")
+    public void deleteChildCategory(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) {
+        service.deleteChildCategory(categoryVO);
     }
 }

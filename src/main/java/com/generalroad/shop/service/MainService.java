@@ -17,8 +17,8 @@ public class MainService {
     public MainVO getMainData(){
 
         MainVO mainVO = new MainVO();
-        mainVO.setTopCategoryList(categoryDAO.selectTopCategoryList());
-        mainVO.setChildCategoryList(categoryDAO.selectChildCategoryList());
+        mainVO.setMainTopCategoryList(categoryDAO.selectMainTopCategoryList());
+        mainVO.setMainChildCategoryList(categoryDAO.selectMainChildCategoryList());
 
         return mainVO;
     }

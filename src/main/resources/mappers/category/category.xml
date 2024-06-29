@@ -3,7 +3,53 @@
 
 <mapper namespace="com.generalroad.shop.category.dao.CategoryDAO">
 
-    <select id="selectTopCategoryList" resultType="com.generalroad.shop.category.vo.CategoryVO">
+    <select id="selectMainTopCategoryList" resultType="com.generalroad.shop.category.vo.CategoryVO">
+        SELECT
+            CATEGORY_IDX,
+            CATEGORY_NAME,
+            CATEGORY_DEPT,
+            CATEGORY_IN_PRDC_CNT,
+            CATEGORY_USE_YN,
+            CATEGORY_ORDER,
+            PARENT_CATEGORY_IDX,
+            (SELECT
+                COUNT(*)
+            FROM
+                CATEGORY
+            WHERE
+                CATEGORY_DEPT = 2
+                AND
+                PARENT_CATEGORY_IDX = CG.CATEGORY_IDX
+                AND
+                CATEGORY_USE_YN = 'Y') CHILD_CATEGORY_CNT
+        FROM
+            CATEGORY CG
+        WHERE
+            CATEGORY_DEPT = 1
+            AND
+            CATEGORY_USE_YN = 'Y'
+        ORDER BY CATEGORY_ORDER
+    </select>
+
+    <select id="selectMainChildCategoryList" resultType="com.generalroad.shop.category.vo.CategoryVO">
+        SELECT
+            CATEGORY_IDX,
+            CATEGORY_NAME,
+            CATEGORY_DEPT,
+            CATEGORY_IN_PRDC_CNT,
+            CATEGORY_USE_YN,
+            CATEGORY_ORDER,
+            PARENT_CATEGORY_IDX
+        FROM
+            CATEGORY CG
+        WHERE
+            CATEGORY_DEPT = 2
+            AND
+            CATEGORY_USE_YN = 'Y'
+        ORDER BY CATEGORY_ORDER
+    </select>
+
+    <select id="selectAdminTopCategoryList" resultType="com.generalroad.shop.category.vo.CategoryVO">
         SELECT
             CATEGORY_IDX,
             CATEGORY_NAME,
@@ -27,7 +73,7 @@
         ORDER BY CATEGORY_ORDER
     </select>
 
-    <select id="selectChildCategoryList" resultType="com.generalroad.shop.category.vo.CategoryVO">
+    <select id="selectAdminChildCategoryList" parameterType="com.generalroad.shop.category.vo.CategoryVO" resultType="com.generalroad.shop.category.vo.CategoryVO">
         SELECT
             CATEGORY_IDX,
             CATEGORY_NAME,
@@ -40,10 +86,12 @@
             CATEGORY CG
         WHERE
             CATEGORY_DEPT = 2
+            AND
+            PARENT_CATEGORY_IDX = #{categoryIdx}
         ORDER BY CATEGORY_ORDER
     </select>
 
-    <update id="updateTopCategoryOrder" parameterType="com.generalroad.shop.category.vo.CategoryVO">
+    <update id="updateCategoryOrder" parameterType="com.generalroad.shop.category.vo.CategoryVO">
         UPDATE
             CATEGORY
         SET
@@ -51,4 +99,82 @@
         WHERE
             CATEGORY_IDX = #{categoryIdx}
     </update>
+
+    <select id="selectCategoryInfo" parameterType="String" resultType="com.generalroad.shop.category.vo.CategoryVO">
+        SELECT
+            *
+        FROM
+            CATEGORY
+        WHERE
+            CATEGORY_IDX = #{value}
+    </select>
+
+    <update id="updateCategoryInfo" parameterType="com.generalroad.shop.category.vo.CategoryVO">
+        UPDATE
+            CATEGORY
+        SET
+            CATEGORY_NAME = #{categoryName},
+            CATEGORY_USE_YN = #{categoryUseYn}
+        WHERE
+            CATEGORY_IDX = #{categoryIdx}
+    </update>
+
+    <select id="selectTopCategoryCnt" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CATEGORY
+        WHERE
+            CATEGORY_DEPT = 1
+    </select>
+
+    <insert id="insertTopCategoryInfo" parameterType="com.generalroad.shop.category.vo.CategoryVO">
+        INSERT INTO CATEGORY
+        (
+            CATEGORY_IDX,
+            CATEGORY_NAME,
+            CATEGORY_DEPT,
+            CATEGORY_IN_PRDC_CNT,
+            CATEGORY_USE_YN,
+            CATEGORY_ORDER,
+            PARENT_CATEGORY_IDX
+        ) VALUES (
+            #{categoryIdx},
+            #{categoryName},
+            1,
+            0,
+            #{categoryUseYn},
+            (SELECT NVL(MAX(CATEGORY_ORDER),0) + 1 FROM CATEGORY WHERE CATEGORY_DEPT = 1),
+            NULL
+        )
+    </insert>
+
+    <insert id="insertChildCategoryInfo" parameterType="com.generalroad.shop.category.vo.CategoryVO">
+        INSERT INTO CATEGORY
+        (
+            CATEGORY_IDX,
+            CATEGORY_NAME,
+            CATEGORY_DEPT,
+            CATEGORY_IN_PRDC_CNT,
+            CATEGORY_USE_YN,
+            CATEGORY_ORDER,
+            PARENT_CATEGORY_IDX
+        ) VALUES (
+            #{categoryIdx},
+            #{categoryName},
+            2,
+            0,
+            #{categoryUseYn},
+            (SELECT NVL(MAX(CATEGORY_ORDER),0) + 1 FROM CATEGORY WHERE CATEGORY_DEPT = 2 AND PARENT_CATEGORY_IDX = #{parentCategoryIdx}),
+            #{parentCategoryIdx}
+        )
+    </insert>
+    
+    <delete id="deleteTopCategory" parameterType="com.generalroad.shop.category.vo.CategoryVO">
+        DELETE FROM CATEGORY WHERE CATEGORY_IDX = #{categoryIdx} OR PARENT_CATEGORY_IDX IN (#{categoryIdx})
+    </delete>
+
+    <delete id="deleteChildCategory" parameterType="com.generalroad.shop.category.vo.CategoryVO">
+        DELETE FROM CATEGORY WHERE CATEGORY_IDX = #{categoryIdx}
+    </delete>
 </mapper>

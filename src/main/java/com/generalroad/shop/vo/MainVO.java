@@ -10,8 +10,8 @@ import java.util.List;
 @Getter
 public class MainVO {
 
-    private List<CategoryVO> topCategoryList;
+    private List<CategoryVO> mainTopCategoryList;
 
-    private List<CategoryVO> childCategoryList;
+    private List<CategoryVO> mainChildCategoryList;
 
 }

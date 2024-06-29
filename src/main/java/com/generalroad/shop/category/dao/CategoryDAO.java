@@ -8,9 +8,27 @@ import java.util.List;
 @Mapper
 public interface CategoryDAO {
 
-    List<CategoryVO> selectTopCategoryList();
+    List<CategoryVO> selectMainTopCategoryList();
 
-    List<CategoryVO> selectChildCategoryList();
+    List<CategoryVO> selectMainChildCategoryList();
 
-    int updateTopCategoryOrder(CategoryVO topCategoryList);
+    List<CategoryVO> selectAdminTopCategoryList();
+
+    List<CategoryVO> selectAdminChildCategoryList(CategoryVO categoryVO);
+
+    int updateCategoryOrder(CategoryVO topCategoryList);
+
+    CategoryVO selectCategoryInfo(String categoryIdx);
+
+    int updateCategoryInfo(CategoryVO categoryVO);
+
+    int selectTopCategoryCnt();
+
+    int insertTopCategoryInfo(CategoryVO categoryVO);
+
+    int insertChildCategoryInfo(CategoryVO categoryVO);
+
+    int deleteTopCategory(CategoryVO categoryVO);
+
+    int deleteChildCategory(CategoryVO categoryVO);
 }
