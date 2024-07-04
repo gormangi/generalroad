@@ -3,4 +3,4 @@ user=ocid1.user.oc1..aaaaaaaa2e6bmhsbpv3adpmxvkm6ksxamr36cg75dth34ettxm5fcermqgj
 fingerprint=db:34:42:3c:ce:04:90:bd:4d:e7:92:05:40:31:a6:76
 tenancy=ocid1.tenancy.oc1..aaaaaaaa3bwmgn2ilzwztagdd2fonwmqzzria3td7fseajpuoehwtzqnhvba
 region=ap-chuncheon-1
-key_file=~/ocikey/oci_api.pem
+key_file=/ocikey/oci_api.pem
