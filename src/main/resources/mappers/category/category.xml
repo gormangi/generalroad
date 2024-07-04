@@ -169,6 +169,56 @@
             #{parentCategoryIdx}
         )
     </insert>
+
+    <insert id="insertTopCategoryFileInfo" parameterType="com.generalroad.shop.common.vo.FileVO">
+        INSERT INTO SHOP_FILE
+        (
+            FILE_IDX,
+            POST_IDX,
+            ORIGINAL_FILE_NAME,
+            FILE_PATH,
+            FILE_NAME,
+            FILE_EXTENTION_NAME,
+            FILE_SIZE,
+            FILE_ORDER,
+            FILE_TYPE
+        ) VALUES (
+            #{fileIdx},
+            #{postIdx},
+            #{originalFileName},
+            #{filePath},
+            #{fileName},
+            #{fileExtentionName},
+            #{fileSize},
+            (SELECT NVL(MAX(FILE_ORDER),0) + 1 FROM SHOP_FILE WHERE POST_IDX = #{postIdx}),
+            #{fileType}
+        )
+    </insert>
+
+    <insert id="insertChildCategoryFileInfo" parameterType="com.generalroad.shop.common.vo.FileVO">
+        INSERT INTO SHOP_FILE
+        (
+            FILE_IDX,
+            POST_IDX,
+            ORIGINAL_FILE_NAME,
+            FILE_PATH,
+            FILE_NAME,
+            FILE_EXTENTION_NAME,
+            FILE_SIZE,
+            FILE_ORDER,
+            FILE_TYPE
+        ) VALUES (
+            #{fileIdx},
+            #{postIdx},
+            #{originalFileName},
+            #{filePath},
+            #{fileName},
+            #{fileExtentionName},
+            #{fileSize},
+            (SELECT NVL(MAX(FILE_ORDER),0) + 1 FROM SHOP_FILE WHERE POST_IDX = #{postIdx}),
+            #{fileType}
+        )
+    </insert>
     
     <delete id="deleteTopCategory" parameterType="com.generalroad.shop.category.vo.CategoryVO">
         DELETE FROM CATEGORY WHERE CATEGORY_IDX = #{categoryIdx} OR PARENT_CATEGORY_IDX IN (#{categoryIdx})
@@ -176,5 +226,13 @@
 
     <delete id="deleteChildCategory" parameterType="com.generalroad.shop.category.vo.CategoryVO">
         DELETE FROM CATEGORY WHERE CATEGORY_IDX = #{categoryIdx}
+    </delete>
+
+    <select id="selectFileByPostIdx" parameterType="String" resultType="com.generalroad.shop.common.vo.FileVO">
+        SELECT * FROM SHOP_FILE WHERE POST_IDX = #{value}
+    </select>
+
+    <delete id="deleteFile" parameterType="com.generalroad.shop.common.vo.FileVO">
+        DELETE FROM SHOP_FILE WHERE FILE_IDX = #{fileIdx}
     </delete>
 </mapper>

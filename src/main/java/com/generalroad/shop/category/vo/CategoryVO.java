@@ -1,5 +1,6 @@
 package com.generalroad.shop.category.vo;
 
+import com.generalroad.shop.common.vo.FileVO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,5 +23,7 @@ public class CategoryVO {
     private int childCategoryCnt;
 
     private int categoryOrder;
+
+    private FileVO categoryThumbnailVO;
 
 }

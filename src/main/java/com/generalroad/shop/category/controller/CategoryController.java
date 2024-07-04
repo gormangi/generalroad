@@ -36,12 +36,12 @@ public class CategoryController {
 
     @PostMapping("/getCategoryInfo")
     @ResponseBody
-    public CategoryVO getCategoryInfo(HttpServletRequest request, HttpServletResponse response,@RequestBody String categoryIdx) {
+    public CategoryVO getCategoryInfo(HttpServletRequest request, HttpServletResponse response,@RequestBody String categoryIdx) throws Exception {
         return service.getCategoryInfo(categoryIdx);
     }
 
     @PutMapping ("/updateCategoryInfo")
-    public void updateCategoryInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) {
+    public void updateCategoryInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) throws Exception {
         service.updateCategoryInfo(categoryVO);
     }
 
@@ -63,12 +63,12 @@ public class CategoryController {
     }
 
     @PostMapping("/deleteTopCategory")
-    public void deleteTopCategory(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) {
+    public void deleteTopCategory(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) throws Exception {
         service.deleteTopCategory(categoryVO);
     }
 
     @PostMapping("/deleteChildCategory")
-    public void deleteChildCategory(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) {
+    public void deleteChildCategory(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) throws Exception {
         service.deleteChildCategory(categoryVO);
     }
 }
