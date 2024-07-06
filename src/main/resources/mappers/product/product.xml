@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.generalroad.shop.product.dao.ProductDAO">
+
+    <select id="selectProductTotalCnt" resultType="int">
+        SELECT COUNT(*) FROM PRODUCT
+    </select>
+
+    <select id="selectProductList" parameterType="com.generalroad.shop.product.vo.ProductSearchVO" resultType="com.generalroad.shop.product.vo.ProductVO">
+        SELECT * FROM (
+            SELECT
+                ROW_NUMBER() OVER(ORDER by PRODUCT_MOD_DATE DESC) AS ROW_NUM,
+                PRODUCT_IDX,
+                PRODUCT_TITLE,
+                PRODUCT_DETAIL,
+                PRODUCT_DESCRIPTION,
+                PRODUCT_ORIGIN_PRICE,
+                PRODUCT_DC_PRICE,
+                PRODUCT_CURRENCY_TYPE,
+                PRODUCT_REG_DATE,
+                PRODUCT_MOD_DATE
+            FROM
+                PRODUCT) PRODUCT
+        WHERE
+            PRODUCT.ROW_NUM BETWEEN #{pagination.firstRecordIndex} AND #{pagination.lastRecordIndex}
+    </select>
+
+</mapper>
