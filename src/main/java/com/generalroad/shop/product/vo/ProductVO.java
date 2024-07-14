@@ -1,5 +1,6 @@
 package com.generalroad.shop.product.vo;
 
+import com.generalroad.shop.common.vo.FileVO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,5 +25,11 @@ public class ProductVO {
     private String productRegDate;
 
     private String productModDate;
+
+    private FileVO productThumbnailVO;
+
+    private String productImgPath;
+
+    private String choosedProduct;
 
 }

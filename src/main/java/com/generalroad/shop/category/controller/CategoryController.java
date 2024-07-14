@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -70,5 +71,21 @@ public class CategoryController {
     @PostMapping("/deleteChildCategory")
     public void deleteChildCategory(HttpServletRequest request, HttpServletResponse response, @RequestBody CategoryVO categoryVO) throws Exception {
         service.deleteChildCategory(categoryVO);
+    }
+
+    @PostMapping("/getCategoryProductLinkList")
+    @ResponseBody
+    public List<CategoryVO> getCategoryProductLinkList(HttpServletRequest request, HttpServletResponse response) {
+        return service.getCategoryProductLinkList();
+    }
+
+    @PostMapping("/addCategoryPrductLink")
+    public void addCategoryPrductLink(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String, Object> paramMap) {
+        service.addCategoryPrductLink(paramMap);
+    }
+
+    @PostMapping("/removeCategoryPrductLink")
+    public void removeCategoryPrductLink(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String, Object> paramMap) {
+        service.removeCategoryPrductLink(paramMap);
     }
 }

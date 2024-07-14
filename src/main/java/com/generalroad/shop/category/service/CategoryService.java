@@ -181,4 +181,16 @@ public class CategoryService {
         dao.deleteChildCategory(categoryVO);
     }
 
+    public List<CategoryVO> getCategoryProductLinkList() {
+        return dao.selectCategoryProductLinkList();
+    }
+
+    public void addCategoryPrductLink(Map<String, Object> paramMap) {
+        dao.insertCategoryPrductLink(paramMap);
+    }
+
+    public void removeCategoryPrductLink(Map<String, Object> paramMap) {
+        dao.deleteCategoryProductLink(paramMap);
+    }
+
 }

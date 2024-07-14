@@ -235,4 +235,44 @@
     <delete id="deleteFile" parameterType="com.generalroad.shop.common.vo.FileVO">
         DELETE FROM SHOP_FILE WHERE FILE_IDX = #{fileIdx}
     </delete>
+
+    <select id="selectCategoryProductLinkList" resultType="com.generalroad.shop.category.vo.CategoryVO">
+        SELECT
+            CATEGORY_IDX,
+            CASE
+                WHEN CATEGORY_DEPT = '2' THEN '↳ '||CATEGORY_NAME
+                ELSE CATEGORY_NAME
+            END CATEGORY_NAME,
+            CATEGORY_DEPT,
+            CATEGORY_IN_PRDC_CNT,
+            CATEGORY_USE_YN,
+            CATEGORY_ORDER,
+            PARENT_CATEGORY_IDX,
+            (SELECT COUNT(*) FROM PRODUCT_CATE_MAPPING WHERE CATE.CATEGORY_IDX = CATEGORY_IDX) CATEGORY_IN_PRODUCT_CNT,
+            CONNECT_BY_ISLEAF AS CONNECTABLE
+        FROM
+            CATEGORY CATE
+        WHERE
+            CATEGORY_USE_YN = 'Y'
+        START WITH PARENT_CATEGORY_IDX IS NULL
+        CONNECT BY PRIOR CATEGORY_IDX = PARENT_CATEGORY_IDX
+        ORDER SIBLINGS BY CATEGORY_ORDER
+    </select>
+
+    <insert id="insertCategoryPrductLink" parameterType="hashmap">
+        INSERT INTO PRODUCT_CATE_MAPPING
+        (
+            CATEGORY_IDX,
+            PRODUCT_IDX,
+            PRODUCT_ORDER
+        ) VALUES (
+            #{categoryIdx},
+            #{productIdx},
+            (SELECT NVL(MAX(PRODUCT_ORDER),0) + 1 FROM PRODUCT_CATE_MAPPING WHERE CATEGORY_IDX = #{categoryIdx})
+        )
+    </insert>
+
+    <delete id="deleteCategoryProductLink" parameterType="hashmap">
+        DELETE FROM PRODUCT_CATE_MAPPING WHERE CATEGORY_IDX = #{categoryIdx} AND PRODUCT_IDX = #{productIdx}
+    </delete>
 </mapper>

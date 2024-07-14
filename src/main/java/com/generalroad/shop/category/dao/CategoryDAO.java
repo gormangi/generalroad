@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface CategoryDAO {
@@ -18,27 +19,33 @@ public interface CategoryDAO {
 
     List<CategoryVO> selectAdminChildCategoryList(CategoryVO categoryVO);
 
-    int updateCategoryOrder(CategoryVO topCategoryList);
+    void updateCategoryOrder(CategoryVO topCategoryList);
 
     CategoryVO selectCategoryInfo(String categoryIdx);
 
-    int updateCategoryInfo(CategoryVO categoryVO);
+    void updateCategoryInfo(CategoryVO categoryVO);
 
     int selectTopCategoryCnt();
 
-    int insertTopCategoryInfo(CategoryVO categoryVO);
+    void insertTopCategoryInfo(CategoryVO categoryVO);
 
-    int insertTopCategoryFileInfo(FileVO fileVO);
+    void insertTopCategoryFileInfo(FileVO fileVO);
 
-    int insertChildCategoryInfo(CategoryVO categoryVO);
+    void insertChildCategoryInfo(CategoryVO categoryVO);
 
-    int insertChildCategoryFileInfo(FileVO fileVO);
+    void insertChildCategoryFileInfo(FileVO fileVO);
 
-    int deleteTopCategory(CategoryVO categoryVO);
+    void deleteTopCategory(CategoryVO categoryVO);
 
-    int deleteChildCategory(CategoryVO categoryVO);
+    void deleteChildCategory(CategoryVO categoryVO);
 
     List<FileVO> selectFileByPostIdx(String postIdx);
 
-    int deleteFile(FileVO fileVO);
+    void deleteFile(FileVO fileVO);
+
+    List<CategoryVO> selectCategoryProductLinkList();
+
+    void insertCategoryPrductLink(Map<String, Object> paramMap);
+
+    void deleteCategoryProductLink(Map<String, Object> paramMap);
 }

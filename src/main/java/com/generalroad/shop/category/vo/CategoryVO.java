@@ -26,4 +26,7 @@ public class CategoryVO {
 
     private FileVO categoryThumbnailVO;
 
+    private int categoryInProductCnt;
+
+    private int connectable;
 }

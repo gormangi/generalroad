@@ -10,7 +10,7 @@
     <select id="selectProductList" parameterType="com.generalroad.shop.product.vo.ProductSearchVO" resultType="com.generalroad.shop.product.vo.ProductVO">
         SELECT * FROM (
             SELECT
-                ROW_NUMBER() OVER(ORDER by PRODUCT_MOD_DATE DESC) AS ROW_NUM,
+                ROW_NUMBER() OVER(ORDER by PRODUCT_REG_DATE DESC) AS ROW_NUM,
                 PRODUCT_IDX,
                 PRODUCT_TITLE,
                 PRODUCT_DETAIL,
@@ -25,5 +25,161 @@
         WHERE
             PRODUCT.ROW_NUM BETWEEN #{pagination.firstRecordIndex} AND #{pagination.lastRecordIndex}
     </select>
+
+    <select id="selectProductChooseTotalCnt" parameterType="com.generalroad.shop.product.vo.ProductChooseSearchVO" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            PRODUCT PRDU LEFT OUTER JOIN PRODUCT_CATE_MAPPING PCM
+            ON PRDU.PRODUCT_IDX = PCM.PRODUCT_IDX AND PCM.CATEGORY_IDX = #{categoryIdx}
+    </select>
+
+    <select id="selectProductChooseList" parameterType="com.generalroad.shop.product.vo.ProductChooseSearchVO" resultType="com.generalroad.shop.product.vo.ProductVO">
+        SELECT * FROM (
+            SELECT
+                ROW_NUMBER() OVER(ORDER by PRDU.PRODUCT_REG_DATE DESC) AS ROW_NUM,
+                PRDU.PRODUCT_IDX,
+                PRDU.PRODUCT_TITLE,
+                PRDU.PRODUCT_DETAIL,
+                PRDU.PRODUCT_DESCRIPTION,
+                PRDU.PRODUCT_ORIGIN_PRICE,
+                PRDU.PRODUCT_DC_PRICE,
+                PRDU.PRODUCT_CURRENCY_TYPE,
+                PRDU.PRODUCT_REG_DATE,
+                PRDU.PRODUCT_MOD_DATE,
+                (SELECT FILE_PATH FROM SHOP_FILE WHERE POST_IDX = PRDU.PRODUCT_IDX) PRODUCT_IMG_PATH,
+                CASE
+                    WHEN PRDU.PRODUCT_IDX = PCM.PRODUCT_IDX THEN 'true'
+                    ELSE 'false'
+                END CHOOSED_PRODUCT
+            FROM
+                PRODUCT PRDU LEFT OUTER JOIN PRODUCT_CATE_MAPPING PCM
+                ON PRDU.PRODUCT_IDX = PCM.PRODUCT_IDX AND PCM.CATEGORY_IDX = #{categoryIdx}) PRODUCT
+        WHERE
+            PRODUCT.ROW_NUM BETWEEN #{pagination.firstRecordIndex} AND #{pagination.lastRecordIndex}
+    </select>
+
+    <insert id="insertProduct" parameterType="com.generalroad.shop.product.vo.ProductVO">
+        INSERT INTO PRODUCT
+        (
+            PRODUCT_IDX,
+            PRODUCT_TITLE,
+            PRODUCT_DETAIL,
+            PRODUCT_DESCRIPTION,
+            PRODUCT_ORIGIN_PRICE,
+            PRODUCT_DC_PRICE,
+            PRODUCT_CURRENCY_TYPE,
+            PRODUCT_REG_DATE,
+            PRODUCT_MOD_DATE
+        ) VALUES (
+            #{productIdx},
+            #{productTitle},
+            #{productDetail},
+            #{productDescription},
+            #{productOriginPrice},
+            #{productDcPrice},
+            #{productCurrencyType},
+            SYSDATE,
+            SYSDATE
+        )
+    </insert>
+
+    <insert id="insertProductFileInfo" parameterType="com.generalroad.shop.common.vo.FileVO">
+        INSERT INTO SHOP_FILE
+        (
+            FILE_IDX,
+            POST_IDX,
+            ORIGINAL_FILE_NAME,
+            FILE_PATH,
+            FILE_NAME,
+            FILE_EXTENTION_NAME,
+            FILE_SIZE,
+            FILE_ORDER,
+            FILE_TYPE
+        ) VALUES (
+            #{fileIdx},
+            #{postIdx},
+            #{originalFileName},
+            #{filePath},
+            #{fileName},
+            #{fileExtentionName},
+            #{fileSize},
+            (SELECT NVL(MAX(FILE_ORDER),0) + 1 FROM SHOP_FILE WHERE POST_IDX = #{postIdx}),
+            #{fileType}
+        )
+    </insert>
+
+    <select id="selectProductInfo" parameterType="String" resultType="com.generalroad.shop.product.vo.ProductVO">
+        SELECT
+            *
+        FROM
+            PRODUCT
+        WHERE
+            PRODUCT_IDX = #{value}
+    </select>
+
+    <select id="selectProductInFileInfo" parameterType="String" resultType="com.generalroad.shop.common.vo.FileVO">
+        SELECT
+            *
+        FROM
+            SHOP_FILE
+        WHERE
+            POST_IDX = #{value}
+    </select>
+
+    <select id="selectFileByPostIdx" parameterType="String" resultType="com.generalroad.shop.common.vo.FileVO">
+        SELECT * FROM SHOP_FILE WHERE POST_IDX = #{value}
+    </select>
+
+    <delete id="deleteFile" parameterType="com.generalroad.shop.common.vo.FileVO">
+        DELETE FROM SHOP_FILE WHERE FILE_IDX = #{fileIdx}
+    </delete>
+
+    <update id="updateProductInfo" parameterType="com.generalroad.shop.product.vo.ProductVO">
+        UPDATE
+            PRODUCT
+        SET
+            PRODUCT_TITLE = #{productTitle},
+            PRODUCT_DETAIL = #{productDetail},
+            PRODUCT_DESCRIPTION = #{productDescription},
+            PRODUCT_ORIGIN_PRICE = #{productOriginPrice},
+            PRODUCT_DC_PRICE = #{productDcPrice},
+            PRODUCT_CURRENCY_TYPE = #{productCurrencyType},
+            PRODUCT_MOD_DATE = SYSDATE
+        WHERE
+            PRODUCT_IDX = #{productIdx}
+    </update>
+
+    <select id="selectCateInProductList" parameterType="String" resultType="hashmap">
+        SELECT
+            PCM.CATEGORY_IDX,
+            PCM.PRODUCT_IDX,
+            (SELECT PRODUCT_TITLE FROM PRODUCT WHERE PRODUCT_IDX = PCM.PRODUCT_IDX) PRODUCT_TITLE,
+            PCM.PRODUCT_ORDER
+        FROM
+            PRODUCT_CATE_MAPPING PCM
+        WHERE
+            CATEGORY_IDX = #{value}
+        ORDER BY PRODUCT_ORDER
+    </select>
+
+    <update id="updateCateInProductOrder" parameterType="hashmap">
+        UPDATE
+            PRODUCT_CATE_MAPPING
+        SET
+            PRODUCT_ORDER = #{PRODUCT_ORDER}
+        WHERE
+            CATEGORY_IDX = #{CATEGORY_IDX}
+            AND
+            PRODUCT_IDX = #{PRODUCT_IDX}
+    </update>
+
+    <delete id="deleteProduct" parameterType="String">
+        DELETE FROM PRODUCT WHERE PRODUCT_IDX = #{value}
+    </delete>
+
+    <delete id="deleteCateInProduct" parameterType="String">
+        DELETE FROM PRODUCT_CATE_MAPPING WHERE PRODUCT_IDX = #{value}
+    </delete>
 
 </mapper>
