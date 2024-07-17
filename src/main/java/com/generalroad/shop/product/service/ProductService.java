@@ -1,8 +1,8 @@
 package com.generalroad.shop.product.service;
 
-import com.generalroad.shop.category.vo.CategoryVO;
 import com.generalroad.shop.common.vo.FileVO;
 import com.generalroad.shop.product.dao.ProductDAO;
+import com.generalroad.shop.product.vo.B2CProductSearchVO;
 import com.generalroad.shop.product.vo.ProductChooseSearchVO;
 import com.generalroad.shop.product.vo.ProductSearchVO;
 import com.generalroad.shop.product.vo.ProductVO;
@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -127,6 +126,12 @@ public class ProductService {
             productFileNames.add(vo.getFileName());
         }
         OciUnit.deleteObject(productFileNames);    // oci object storage 에 올라간 물리파일 삭제
+    }
+
+    public B2CProductSearchVO getB2CProductList(B2CProductSearchVO b2CProductSearchVO) {
+        b2CProductSearchVO.getPagination().setTotalDataCnt(dao.selectB2CProductTotalCnt(b2CProductSearchVO));
+        b2CProductSearchVO.setProductList(dao.selectB2CProductList(b2CProductSearchVO));
+        return b2CProductSearchVO;
     }
 
 }

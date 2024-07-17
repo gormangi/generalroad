@@ -33,6 +33,10 @@ public class CategoryService {
 
     public CategoryVO getCategoryInfo(String categoryIdx) throws Exception {
         CategoryVO vo = dao.selectCategoryInfo(categoryIdx);
+        if (vo.getParentCategoryIdx() != null) {
+            CategoryVO parentCateVO = dao.selectCategoryInfo(vo.getParentCategoryIdx());
+            vo.setParentCategoryName(parentCateVO.getCategoryName());
+        }
         List<FileVO> cateInFile = dao.selectFileByPostIdx(categoryIdx);
         vo.setCategoryThumbnailVO(cateInFile.get(0));
         return vo;

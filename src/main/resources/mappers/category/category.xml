@@ -275,4 +275,27 @@
     <delete id="deleteCategoryProductLink" parameterType="hashmap">
         DELETE FROM PRODUCT_CATE_MAPPING WHERE CATEGORY_IDX = #{categoryIdx} AND PRODUCT_IDX = #{productIdx}
     </delete>
+
+    <select id="selectMainCategoryList" resultType="com.generalroad.shop.category.vo.CategoryVO">
+        SELECT
+            CATEGORY_IDX,
+            CATEGORY_NAME,
+            CATEGORY_DEPT,
+            CATEGORY_IN_PRDC_CNT,
+            CATEGORY_USE_YN,
+            CATEGORY_ORDER,
+            PARENT_CATEGORY_IDX,
+            (SELECT COUNT(*) FROM PRODUCT_CATE_MAPPING WHERE CATE.CATEGORY_IDX = CATEGORY_IDX) CATEGORY_IN_PRODUCT_CNT,
+            CONNECT_BY_ISLEAF AS CONNECTABLE,
+            (SELECT FILE_PATH FROM SHOP_FILE WHERE POST_IDX = CATE.CATEGORY_IDX) THUMB_IMG_URL
+        FROM
+            CATEGORY CATE
+        WHERE
+            CATEGORY_USE_YN = 'Y'
+            AND
+            CONNECT_BY_ISLEAF = 1
+        START WITH PARENT_CATEGORY_IDX IS NULL
+        CONNECT BY PRIOR CATEGORY_IDX = PARENT_CATEGORY_IDX
+        ORDER SIBLINGS BY CATEGORY_ORDER
+    </select>
 </mapper>

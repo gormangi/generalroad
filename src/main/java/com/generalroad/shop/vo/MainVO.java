@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -13,5 +14,9 @@ public class MainVO {
     private List<CategoryVO> mainTopCategoryList;
 
     private List<CategoryVO> mainChildCategoryList;
+
+    private List<CategoryVO> mainCategoryList;
+
+    private List<Map<String, Object>> mainProductList;
 
 }

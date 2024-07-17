@@ -26,6 +26,67 @@
             PRODUCT.ROW_NUM BETWEEN #{pagination.firstRecordIndex} AND #{pagination.lastRecordIndex}
     </select>
 
+    <select id="selectB2CProductTotalCnt" parameterType="com.generalroad.shop.product.vo.B2CProductSearchVO" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            PRODUCT PRD
+            INNER JOIN PRODUCT_CATE_MAPPING PCM
+                ON PCM.PRODUCT_IDX = PRD.PRODUCT_IDX
+            INNER JOIN SHOP_FILE SF
+                ON PRD.PRODUCT_IDX = SF.POST_IDX
+        <where>
+            <if test="categoryIdx != '' and categoryIdx != null">AND PCM.CATEGORY_IDX = #{categoryIdx}</if>
+            <if test="searchKeyword != '' and searchKeyword != null">
+                AND (PRD.PRODUCT_TITLE LIKE '%'||#{searchKeyword}||'%' OR PRD.PRODUCT_DETAIL LIKE '%'||#{searchKeyword}||'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectB2CProductList" parameterType="com.generalroad.shop.product.vo.B2CProductSearchVO" resultType="com.generalroad.shop.product.vo.ProductVO">
+        SELECT * FROM (
+            SELECT
+                ROW_NUMBER() OVER(
+                    <choose>
+                        <when test="sortKind == 'regSort'">
+                            ORDER by PRD.PRODUCT_REG_DATE DESC
+                        </when>
+                        <when test="sortKind == 'priceAscSort'">
+                            ORDER by PRD.PRODUCT_DC_PRICE ASC
+                        </when>
+                        <when test="sortKind == 'priceDescSort'">
+                            ORDER by PRD.PRODUCT_DC_PRICE DESC
+                        </when>
+                        <otherwise>
+                            ORDER by PRD.PRODUCT_REG_DATE DESC
+                        </otherwise>
+                    </choose>
+                ) AS ROW_NUM,
+                PRD.PRODUCT_IDX,
+                PRD.PRODUCT_TITLE,
+                PRD.PRODUCT_DETAIL,
+                PRD.PRODUCT_DESCRIPTION,
+                PRD.PRODUCT_ORIGIN_PRICE,
+                PRD.PRODUCT_DC_PRICE,
+                PRD.PRODUCT_CURRENCY_TYPE,
+                PRD.PRODUCT_REG_DATE,
+                PRD.PRODUCT_MOD_DATE,
+                SF.FILE_PATH PRODUCT_IMG_PATH
+            FROM
+                PRODUCT PRD
+                INNER JOIN PRODUCT_CATE_MAPPING PCM
+                    ON PCM.PRODUCT_IDX = PRD.PRODUCT_IDX
+                INNER JOIN SHOP_FILE SF
+                    ON PRD.PRODUCT_IDX = SF.POST_IDX
+            <where>
+                <if test="categoryIdx != '' and categoryIdx != null">AND PCM.CATEGORY_IDX = #{categoryIdx}</if>
+                <if test="searchKeyword != '' and searchKeyword != null">
+                    AND (PRD.PRODUCT_TITLE LIKE '%'||#{searchKeyword}||'%' OR PRD.PRODUCT_DETAIL LIKE '%'||#{searchKeyword}||'%')
+                </if>
+            </where>
+        ) PRODUCT WHERE PRODUCT.ROW_NUM BETWEEN #{pagination.firstRecordIndex} AND #{pagination.lastRecordIndex}
+    </select>
+
     <select id="selectProductChooseTotalCnt" parameterType="com.generalroad.shop.product.vo.ProductChooseSearchVO" resultType="int">
         SELECT
             COUNT(*)
@@ -181,5 +242,25 @@
     <delete id="deleteCateInProduct" parameterType="String">
         DELETE FROM PRODUCT_CATE_MAPPING WHERE PRODUCT_IDX = #{value}
     </delete>
+
+    <select id="selectProductListByCategoryIdx" parameterType="String" resultType="com.generalroad.shop.product.vo.ProductVO">
+        SELECT
+            PRD.PRODUCT_IDX,
+            PRD.PRODUCT_TITLE,
+            PRD.PRODUCT_DETAIL,
+            PRD.PRODUCT_DESCRIPTION,
+            PRD.PRODUCT_ORIGIN_PRICE,
+            PRD.PRODUCT_DC_PRICE,
+            PRD.PRODUCT_CURRENCY_TYPE,
+            PRD.PRODUCT_REG_DATE,
+            PRD.PRODUCT_MOD_DATE,
+            (SELECT FILE_PATH FROM SHOP_FILE WHERE POST_IDX = PRD.PRODUCT_IDX) PRODUCT_IMG_PATH
+        FROM
+            PRODUCT_CATE_MAPPING PCM INNER JOIN PRODUCT PRD
+            ON PCM.PRODUCT_IDX = PRD.PRODUCT_IDX
+        WHERE
+            PCM.CATEGORY_IDX = #{value}
+        ORDER BY PCM.PRODUCT_ORDER
+    </select>
 
 </mapper>

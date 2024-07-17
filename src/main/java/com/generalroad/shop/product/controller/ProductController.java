@@ -1,7 +1,7 @@
 package com.generalroad.shop.product.controller;
 
-import com.generalroad.shop.category.vo.CategoryVO;
 import com.generalroad.shop.product.service.ProductService;
+import com.generalroad.shop.product.vo.B2CProductSearchVO;
 import com.generalroad.shop.product.vo.ProductChooseSearchVO;
 import com.generalroad.shop.product.vo.ProductSearchVO;
 import com.generalroad.shop.product.vo.ProductVO;
@@ -66,6 +66,12 @@ public class ProductController {
     @PostMapping("/productDelete")
     public void productDelete(HttpServletRequest request, HttpServletResponse response, @RequestBody String productIdx) throws Exception {
         service.productDelete(productIdx);
+    }
+
+    @PostMapping("/getB2CProductList")
+    @ResponseBody
+    public B2CProductSearchVO getB2CProductList(HttpServletRequest request, HttpServletResponse response, @RequestBody B2CProductSearchVO b2CProductSearchVO) {
+        return service.getB2CProductList(b2CProductSearchVO);
     }
 
 }

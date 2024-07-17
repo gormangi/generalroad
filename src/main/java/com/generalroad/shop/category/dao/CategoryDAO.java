@@ -15,6 +15,8 @@ public interface CategoryDAO {
 
     List<CategoryVO> selectMainChildCategoryList();
 
+    List<CategoryVO> selectMainCategoryList();
+
     List<CategoryVO> selectAdminTopCategoryList();
 
     List<CategoryVO> selectAdminChildCategoryList(CategoryVO categoryVO);

@@ -1,6 +1,7 @@
 package com.generalroad.shop.product.dao;
 
 import com.generalroad.shop.common.vo.FileVO;
+import com.generalroad.shop.product.vo.B2CProductSearchVO;
 import com.generalroad.shop.product.vo.ProductChooseSearchVO;
 import com.generalroad.shop.product.vo.ProductSearchVO;
 import com.generalroad.shop.product.vo.ProductVO;
@@ -41,5 +42,11 @@ public interface ProductDAO {
     void deleteProduct(String productIdx);
 
     void deleteCateInProduct(String productIdx);
+
+    List<ProductVO> selectProductListByCategoryIdx(String categoryIdx);
+
+    int selectB2CProductTotalCnt(B2CProductSearchVO b2CProductSearchVO);
+
+    List<ProductVO> selectB2CProductList(B2CProductSearchVO b2CProductSearchVO);
 
 }

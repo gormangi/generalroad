@@ -29,4 +29,8 @@ public class CategoryVO {
     private int categoryInProductCnt;
 
     private int connectable;
+
+    private String thumbImgUrl;
+
+    private String parentCategoryName;
 }
