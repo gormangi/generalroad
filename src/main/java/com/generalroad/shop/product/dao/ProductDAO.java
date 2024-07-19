@@ -13,7 +13,7 @@ import java.util.Map;
 @Mapper
 public interface ProductDAO {
 
-    int selectProductTotalCnt();
+    int selectProductTotalCnt(ProductSearchVO productSearchVO);
 
     List<ProductVO> selectProductList(ProductSearchVO productSearchVO);
 
@@ -48,5 +48,7 @@ public interface ProductDAO {
     int selectB2CProductTotalCnt(B2CProductSearchVO b2CProductSearchVO);
 
     List<ProductVO> selectB2CProductList(B2CProductSearchVO b2CProductSearchVO);
+
+    ProductVO selectProductDetail(String productIdx);
 
 }

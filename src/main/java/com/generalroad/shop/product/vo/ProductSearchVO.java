@@ -13,4 +13,6 @@ public class ProductSearchVO {
     private List<ProductVO> productList;
 
     private Pagination pagination;
+
+    private String searchKeyword;
 }

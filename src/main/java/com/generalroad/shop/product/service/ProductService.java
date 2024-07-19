@@ -23,7 +23,7 @@ public class ProductService {
     private final ProductDAO dao;
 
     public ProductSearchVO getProductList(ProductSearchVO productSearchVO) {
-        productSearchVO.getPagination().setTotalDataCnt(dao.selectProductTotalCnt());
+        productSearchVO.getPagination().setTotalDataCnt(dao.selectProductTotalCnt(productSearchVO));
         productSearchVO.setProductList(dao.selectProductList(productSearchVO));
         return productSearchVO;
     }
@@ -132,6 +132,10 @@ public class ProductService {
         b2CProductSearchVO.getPagination().setTotalDataCnt(dao.selectB2CProductTotalCnt(b2CProductSearchVO));
         b2CProductSearchVO.setProductList(dao.selectB2CProductList(b2CProductSearchVO));
         return b2CProductSearchVO;
+    }
+
+    public ProductVO getProductDetail(String productIdx) {
+        return dao.selectProductDetail(productIdx);
     }
 
 }

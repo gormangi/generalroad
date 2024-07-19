@@ -74,4 +74,10 @@ public class ProductController {
         return service.getB2CProductList(b2CProductSearchVO);
     }
 
+    @PostMapping("/getProductDetail")
+    @ResponseBody
+    public ProductVO getProductDetail(HttpServletRequest request, HttpServletResponse response, @RequestBody String productIdx) {
+        return service.getProductDetail(productIdx);
+    }
+
 }

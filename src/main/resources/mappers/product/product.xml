@@ -3,8 +3,13 @@
 
 <mapper namespace="com.generalroad.shop.product.dao.ProductDAO">
 
-    <select id="selectProductTotalCnt" resultType="int">
+    <select id="selectProductTotalCnt" parameterType="com.generalroad.shop.product.vo.ProductSearchVO" resultType="int">
         SELECT COUNT(*) FROM PRODUCT
+        <where>
+            <if test="searchKeyword != '' and searchKeyword != null">
+                AND (PRODUCT_TITLE LIKE '%'||#{searchKeyword}||'%' OR PRODUCT_DETAIL LIKE '%'||#{searchKeyword}||'%')
+            </if>
+        </where>
     </select>
 
     <select id="selectProductList" parameterType="com.generalroad.shop.product.vo.ProductSearchVO" resultType="com.generalroad.shop.product.vo.ProductVO">
@@ -21,7 +26,12 @@
                 PRODUCT_REG_DATE,
                 PRODUCT_MOD_DATE
             FROM
-                PRODUCT) PRODUCT
+                PRODUCT
+            <where>
+                <if test="searchKeyword != '' and searchKeyword != null">
+                    AND (PRODUCT_TITLE LIKE '%'||#{searchKeyword}||'%' OR PRODUCT_DETAIL LIKE '%'||#{searchKeyword}||'%')
+                </if>
+            </where>) PRODUCT
         WHERE
             PRODUCT.ROW_NUM BETWEEN #{pagination.firstRecordIndex} AND #{pagination.lastRecordIndex}
     </select>
@@ -261,6 +271,25 @@
         WHERE
             PCM.CATEGORY_IDX = #{value}
         ORDER BY PCM.PRODUCT_ORDER
+    </select>
+
+    <select id="selectProductDetail" parameterType="String" resultType="com.generalroad.shop.product.vo.ProductVO">
+        SELECT
+            PRD.PRODUCT_IDX,
+            PRD.PRODUCT_TITLE,
+            PRD.PRODUCT_DETAIL,
+            PRD.PRODUCT_DESCRIPTION,
+            PRD.PRODUCT_ORIGIN_PRICE,
+            PRD.PRODUCT_DC_PRICE,
+            PRD.PRODUCT_CURRENCY_TYPE,
+            PRD.PRODUCT_REG_DATE,
+            PRD.PRODUCT_MOD_DATE,
+            (SELECT FILE_PATH FROM SHOP_FILE WHERE POST_IDX = PRD.PRODUCT_IDX) PRODUCT_IMG_PATH
+        FROM
+            PRODUCT_CATE_MAPPING PCM INNER JOIN PRODUCT PRD
+            ON PCM.PRODUCT_IDX = PRD.PRODUCT_IDX
+        WHERE
+            PRD.PRODUCT_IDX = #{value}
     </select>
 
 </mapper>
