@@ -1,7 +1,10 @@
 package com.generalroad.shop.service;
 
+import com.generalroad.shop.banner.dao.BannerDAO;
+import com.generalroad.shop.banner.vo.BannerVO;
 import com.generalroad.shop.category.dao.CategoryDAO;
 import com.generalroad.shop.category.vo.CategoryVO;
+import com.generalroad.shop.common.vo.FileVO;
 import com.generalroad.shop.dao.MainDAO;
 import com.generalroad.shop.product.dao.ProductDAO;
 import com.generalroad.shop.vo.MainVO;
@@ -17,9 +20,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MainService {
 
-    private final MainDAO mainDao;
-
     private final CategoryDAO categoryDAO;
+
+    private final BannerDAO bannerDAO;
 
     private final ProductDAO productDAO;
 
@@ -29,6 +32,11 @@ public class MainService {
         mainVO.setMainTopCategoryList(categoryDAO.selectMainTopCategoryList());
         mainVO.setMainChildCategoryList(categoryDAO.selectMainChildCategoryList());
         mainVO.setMainCategoryList(categoryDAO.selectMainCategoryList());
+        List<BannerVO> bannerList = bannerDAO.selectBannerList();
+        bannerList.forEach((item) -> {
+            item.setBannerImgVO(bannerDAO.selectFileByPostIdx(item.getBannerIdx()).get(0));
+        });
+        mainVO.setMainBannerList(bannerList);
 
         List<Map<String, Object>> productList = new ArrayList<>();
         List<CategoryVO> categoryList = mainVO.getMainCategoryList();

@@ -1,5 +1,6 @@
 package com.generalroad.shop.vo;
 
+import com.generalroad.shop.banner.vo.BannerVO;
 import com.generalroad.shop.category.vo.CategoryVO;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +19,7 @@ public class MainVO {
     private List<CategoryVO> mainCategoryList;
 
     private List<Map<String, Object>> mainProductList;
+
+    private List<BannerVO> mainBannerList;
 
 }

@@ -103,6 +103,11 @@
         FROM
             PRODUCT PRDU LEFT OUTER JOIN PRODUCT_CATE_MAPPING PCM
             ON PRDU.PRODUCT_IDX = PCM.PRODUCT_IDX AND PCM.CATEGORY_IDX = #{categoryIdx}
+        <where>
+            <if test="searchKeyword != '' and searchKeyword != null">
+                AND (PRDU.PRODUCT_TITLE LIKE '%'||#{searchKeyword}||'%' OR PRDU.PRODUCT_DETAIL LIKE '%'||#{searchKeyword}||'%')
+            </if>
+        </where>
     </select>
 
     <select id="selectProductChooseList" parameterType="com.generalroad.shop.product.vo.ProductChooseSearchVO" resultType="com.generalroad.shop.product.vo.ProductVO">
@@ -125,7 +130,12 @@
                 END CHOOSED_PRODUCT
             FROM
                 PRODUCT PRDU LEFT OUTER JOIN PRODUCT_CATE_MAPPING PCM
-                ON PRDU.PRODUCT_IDX = PCM.PRODUCT_IDX AND PCM.CATEGORY_IDX = #{categoryIdx}) PRODUCT
+                ON PRDU.PRODUCT_IDX = PCM.PRODUCT_IDX AND PCM.CATEGORY_IDX = #{categoryIdx}
+            <where>
+                <if test="searchKeyword != '' and searchKeyword != null">
+                    AND (PRDU.PRODUCT_TITLE LIKE '%'||#{searchKeyword}||'%' OR PRDU.PRODUCT_DETAIL LIKE '%'||#{searchKeyword}||'%')
+                </if>
+            </where>) PRODUCT
         WHERE
             PRODUCT.ROW_NUM BETWEEN #{pagination.firstRecordIndex} AND #{pagination.lastRecordIndex}
     </select>

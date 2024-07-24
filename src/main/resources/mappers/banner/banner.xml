@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.generalroad.shop.banner.dao.BannerDAO">
+
+    <select id="selectBannerList" resultType="com.generalroad.shop.banner.vo.BannerVO">
+        SELECT
+            BAN.BANNER_IDX,
+            BAN.CATEGORY_IDX,
+            (SELECT CATEGORY_NAME FROM CATEGORY WHERE CATEGORY_IDX = BAN.CATEGORY_IDX) CATEGORY_NAME,
+            BAN.BANNER_TITLE,
+            BAN.BANNER_SUB_TITLE,
+            BAN.BANNER_ORDER
+        FROM
+            BANNER BAN
+        ORDER BY BAN.BANNER_ORDER
+    </select>
+
+    <update id="updateBannerOrder" parameterType="com.generalroad.shop.banner.vo.BannerVO">
+        UPDATE
+            BANNER
+        SET
+            BANNER_ORDER = #{bannerOrder}
+        WHERE
+            BANNER_IDX = #{bannerIdx}
+    </update>
+
+    <insert id="insertBanner" parameterType="com.generalroad.shop.banner.vo.BannerVO">
+        INSERT INTO BANNER
+        (
+            BANNER_IDX,
+            CATEGORY_IDX,
+            BANNER_TITLE,
+            BANNER_SUB_TITLE,
+            BANNER_ORDER
+        ) VALUES (
+            #{bannerIdx},
+            #{categoryIdx},
+            #{bannerTitle},
+            #{bannerSubTitle},
+            (SELECT NVL(MAX(BANNER_ORDER),0) + 1 FROM BANNER)
+        )
+    </insert>
+
+    <insert id="insertBannerFileInfo" parameterType="com.generalroad.shop.common.vo.FileVO">
+        INSERT INTO SHOP_FILE
+        (
+            FILE_IDX,
+            POST_IDX,
+            ORIGINAL_FILE_NAME,
+            FILE_PATH,
+            FILE_NAME,
+            FILE_EXTENTION_NAME,
+            FILE_SIZE,
+            FILE_ORDER,
+            FILE_TYPE
+        ) VALUES (
+            #{fileIdx},
+            #{postIdx},
+            #{originalFileName},
+            #{filePath},
+            #{fileName},
+            #{fileExtentionName},
+            #{fileSize},
+            (SELECT NVL(MAX(FILE_ORDER),0) + 1 FROM SHOP_FILE WHERE POST_IDX = #{postIdx}),
+            #{fileType}
+        )
+    </insert>
+
+    <select id="selectBannerInfo" parameterType="String" resultType="com.generalroad.shop.banner.vo.BannerVO">
+        SELECT
+            BN.BANNER_IDX,
+            BN.CATEGORY_IDX,
+            BN.BANNER_TITLE,
+            BN.BANNER_SUB_TITLE,
+            BN.BANNER_ORDER,
+            (SELECT CATEGORY_NAME FROM CATEGORY WHERE CATEGORY_IDX = BN.CATEGORY_IDX) CATEGORY_NAME
+        FROM
+            BANNER BN
+        WHERE
+            BN.BANNER_IDX = #{value}
+    </select>
+
+    <select id="selectBannerImg" parameterType="String" resultType="com.generalroad.shop.common.vo.FileVO">
+        SELECT
+            FILE_IDX,
+            POST_IDX,
+            ORIGINAL_FILE_NAME,
+            FILE_PATH,
+            FILE_NAME,
+            FILE_EXTENTION_NAME,
+            FILE_SIZE,
+            FILE_ORDER,
+            FILE_TYPE
+        FROM
+            SHOP_FILE
+        WHERE
+            POST_IDX = #{value}
+    </select>
+
+    <select id="selectFileByPostIdx" parameterType="String" resultType="com.generalroad.shop.common.vo.FileVO">
+        SELECT * FROM SHOP_FILE WHERE POST_IDX = #{value}
+    </select>
+
+    <delete id="deleteFile" parameterType="com.generalroad.shop.common.vo.FileVO">
+        DELETE FROM SHOP_FILE WHERE FILE_IDX = #{fileIdx}
+    </delete>
+
+    <update id="updateBannerInfo" parameterType="com.generalroad.shop.banner.vo.BannerVO">
+        UPDATE
+            BANNER
+        SET
+            CATEGORY_IDX = #{categoryIdx},
+            BANNER_TITLE = #{bannerTitle},
+            BANNER_SUB_TITLE = #{bannerSubTitle}
+        WHERE
+            BANNER_IDX = #{bannerIdx}
+    </update>
+
+    <delete id="deleteBanner" parameterType="String">
+        DELETE FROM BANNER WHERE BANNER_IDX = #{value}
+    </delete>
+
+</mapper>

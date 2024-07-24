@@ -16,4 +16,6 @@ public class ProductChooseSearchVO {
 
     private String categoryIdx;
 
+    private String searchKeyword;
+
 }
