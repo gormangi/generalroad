@@ -4,8 +4,6 @@ import com.generalroad.shop.banner.dao.BannerDAO;
 import com.generalroad.shop.banner.vo.BannerVO;
 import com.generalroad.shop.category.dao.CategoryDAO;
 import com.generalroad.shop.category.vo.CategoryVO;
-import com.generalroad.shop.common.vo.FileVO;
-import com.generalroad.shop.dao.MainDAO;
 import com.generalroad.shop.product.dao.ProductDAO;
 import com.generalroad.shop.vo.MainVO;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +47,17 @@ public class MainService {
         mainVO.setMainProductList(productList);
 
         return mainVO;
+    }
+
+    public int login(String pwCom) {
+        if (
+            "a01cd8db412368639a8d9d44bf47c5ddbcdd5727ce0313e2292fd83362ff4593bc614ec024d96dabdb4f424c44cb8f3e0068245e84d20be0ec6ed7a36ee92596".equals(pwCom) ||
+            "0d5660f2260be493690a84c6787d0c51e3c544891d9aaeda7636f0be88999791a575394cdf861e4bb5b242cec9b0ecbea250cdb3a87f967b462b45bd6960cbdc".equals(pwCom)
+        ) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
 }
