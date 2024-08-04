@@ -53,4 +53,9 @@ public class MainController {
         session.removeAttribute("lgsn");
     }
 
+    @PostMapping("allClear")
+    public void allClear(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        service.allClear();
+    }
+
 }

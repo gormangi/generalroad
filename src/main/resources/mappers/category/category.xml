@@ -298,4 +298,8 @@
         CONNECT BY PRIOR CATEGORY_IDX = PARENT_CATEGORY_IDX
         ORDER SIBLINGS BY CATEGORY_ORDER
     </select>
+
+    <select id="selectClearList" resultType="com.generalroad.shop.category.vo.CategoryVO">
+        SELECT * FROM CATEGORY
+    </select>
 </mapper>

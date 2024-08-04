@@ -4,7 +4,6 @@ import com.generalroad.shop.category.vo.CategoryVO;
 import com.generalroad.shop.common.vo.FileVO;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -50,4 +49,6 @@ public interface CategoryDAO {
     void insertCategoryPrductLink(Map<String, Object> paramMap);
 
     void deleteCategoryProductLink(Map<String, Object> paramMap);
+
+    List<CategoryVO> selectClearList();
 }

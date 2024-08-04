@@ -4,7 +4,11 @@ import com.generalroad.shop.banner.dao.BannerDAO;
 import com.generalroad.shop.banner.vo.BannerVO;
 import com.generalroad.shop.category.dao.CategoryDAO;
 import com.generalroad.shop.category.vo.CategoryVO;
+import com.generalroad.shop.common.vo.FileVO;
+import com.generalroad.shop.dao.MainDAO;
 import com.generalroad.shop.product.dao.ProductDAO;
+import com.generalroad.shop.product.vo.ProductVO;
+import com.generalroad.shop.util.OciUnit;
 import com.generalroad.shop.vo.MainVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,8 @@ public class MainService {
     private final BannerDAO bannerDAO;
 
     private final ProductDAO productDAO;
+
+    private final MainDAO mainDAO;
 
     public MainVO getMainData(){
 
@@ -57,6 +63,39 @@ public class MainService {
             return 1;
         } else {
             return 0;
+        }
+    }
+
+    public void allClear() throws Exception {
+        List<CategoryVO> categoryList = categoryDAO.selectClearList();
+        List<ProductVO> productList = productDAO.selectClearList();
+        List<BannerVO> bannerList = bannerDAO.selectClearList();
+
+        List<FileVO> clearFileList = new ArrayList<>();
+        for (CategoryVO categoryVO : categoryList) {
+            clearFileList.add(mainDAO.selectFileInfo(categoryVO.getCategoryIdx()));
+            mainDAO.deleteCategory(categoryVO.getCategoryIdx());
+            mainDAO.deleteProductCate(categoryVO.getCategoryIdx());
+        }
+        for (ProductVO productVO : productList) {
+            clearFileList.add(mainDAO.selectFileInfo(productVO.getProductIdx()));
+            mainDAO.deleteProduct(productVO.getProductIdx());
+        }
+        for (BannerVO bannerVO : bannerList) {
+            clearFileList.add(mainDAO.selectFileInfo(bannerVO.getBannerIdx()));
+            mainDAO.deleteBanner(bannerVO.getBannerIdx());
+        }
+
+        List<String> fileNames = new ArrayList<>();
+        List<String> fileIdxs = new ArrayList<>();
+        for (FileVO fileVO : clearFileList) {
+            fileNames.add(fileVO.getFileName());
+            fileIdxs.add(fileVO.getFileIdx());
+        }
+        OciUnit.deleteObject(fileNames);
+
+        for (String fileIdx : fileIdxs) {
+            mainDAO.deleteFileInfo(fileIdx);
         }
     }
 

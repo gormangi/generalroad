@@ -19,7 +19,7 @@ public class CategoryService {
 
     private final CategoryDAO dao;
 
-    public List<CategoryVO> getAdminTopCategoryList() {
+    public List<CategoryVO> getAdminTopCategoryList() throws Exception {
         return dao.selectAdminTopCategoryList();
     }
 
@@ -27,7 +27,7 @@ public class CategoryService {
         return dao.selectAdminChildCategoryList(categoryVO);
     }
 
-    public void saveCategoryOrder(List<CategoryVO> topCategoryList) {
+    public void saveCategoryOrder(List<CategoryVO> topCategoryList) throws Exception {
         topCategoryList.forEach(dao::updateCategoryOrder);
     }
 

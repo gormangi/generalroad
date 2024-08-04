@@ -302,4 +302,8 @@
             PRD.PRODUCT_IDX = #{value}
     </select>
 
+    <select id="selectClearList" resultType="com.generalroad.shop.product.vo.ProductVO">
+        SELECT * FROM PRODUCT
+    </select>
+
 </mapper>

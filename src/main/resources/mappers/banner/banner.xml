@@ -121,4 +121,8 @@
         DELETE FROM BANNER WHERE BANNER_IDX = #{value}
     </delete>
 
+    <select id="selectClearList" resultType="com.generalroad.shop.banner.vo.BannerVO">
+        SELECT * FROM BANNER
+    </select>
+
 </mapper>

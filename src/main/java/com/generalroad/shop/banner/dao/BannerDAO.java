@@ -28,4 +28,6 @@ public interface BannerDAO {
     void updateBannerInfo(BannerVO bannerVO);
 
     void deleteBanner(String bannerIdx);
+
+    List<BannerVO> selectClearList();
 }

@@ -2,4 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.generalroad.shop.dao.MainDAO">
+
+    <select id="selectFileInfo" parameterType="String" resultType="com.generalroad.shop.common.vo.FileVO">
+        SELECT
+            FILE_IDX,
+            FILE_NAME
+        FROM
+            SHOP_FILE
+        WHERE
+            POST_IDX = #{value}
+    </select>
+
+    <delete id="deleteFileInfo" parameterType="String">
+        DELETE FROM SHOP_FILE WHERE FILE_IDX = #{value}
+    </delete>
+
+    <delete id="deleteCategory" parameterType="String">
+        DELETE FROM CATEGORY WHERE CATEGORY_IDX = #{value}
+    </delete>
+
+    <delete id="deleteProductCate" parameterType="String">
+        DELETE FROM PRODUCT_CATE_MAPPING WHERE CATEGORY_IDX = #{value}
+    </delete>
+
+    <delete id="deleteProduct" parameterType="String">
+        DELETE FROM PRODUCT WHERE PRODUCT_IDX = #{value}
+    </delete>
+
+    <delete id="deleteBanner" parameterType="String">
+        DELETE FROM BANNER WHERE BANNER_IDX = #{value}
+    </delete>
+
 </mapper>

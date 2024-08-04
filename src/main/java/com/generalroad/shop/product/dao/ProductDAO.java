@@ -51,4 +51,6 @@ public interface ProductDAO {
 
     ProductVO selectProductDetail(String productIdx);
 
+    List<ProductVO> selectClearList();
+
 }

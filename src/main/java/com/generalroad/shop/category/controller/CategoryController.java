@@ -20,7 +20,7 @@ public class CategoryController {
 
     @PostMapping("/getAdminTopCategoryList")
     @ResponseBody
-    public List<CategoryVO> getAdminTopCategoryList(HttpServletRequest request, HttpServletResponse response){
+    public List<CategoryVO> getAdminTopCategoryList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return service.getAdminTopCategoryList();
     }
 
@@ -31,7 +31,7 @@ public class CategoryController {
     }
 
     @PostMapping("/saveCategoryOrder")
-    public void saveCategoryOrder(HttpServletRequest request, HttpServletResponse response,@RequestBody List<CategoryVO> topCategoryList) {
+    public void saveCategoryOrder(HttpServletRequest request, HttpServletResponse response,@RequestBody List<CategoryVO> topCategoryList) throws Exception {
         service.saveCategoryOrder(topCategoryList);
     }
 
